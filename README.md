@@ -168,59 +168,6 @@ NavigationManager              modules/*/module.py
 
 ---
 
-## 🔌 Добавление нового модуля
-
-Чтобы добавить утилиту, **ядро менять не нужно**. Достаточно трёх шагов:
-
-### Шаг 1: Создайте папку модуля
-
-```
-modules/
-└── my_tool/
-    ├── __init__.py
-    ├── module.py       ← обязательный файл
-    ├── api/
-    ├── logic/
-    └── ui/
-```
-
-### Шаг 2: Реализуйте `BaseModule` в `module.py`
-
-```python
-from core.base_module import BaseModule
-from PyQt6.QtWidgets import QWidget
-
-class MyToolModule(BaseModule):
-
-    @property
-    def module_id(self) -> str:
-        return "my_tool"
-
-    @property
-    def display_name(self) -> str:
-        return "Мой инструмент"
-
-    @property
-    def icon_path(self) -> str:
-        return ""
-
-    def create_widget(self, parent: QWidget | None = None) -> QWidget:
-        from .ui.main_view import MyToolView
-        return MyToolView(parent)
-```
-
-### Шаг 3: Зарегистрируйте в `main.py`
-
-```python
-from modules.my_tool.module import MyToolModule
-
-registry.register(MyToolModule())
-```
-
-Модуль автоматически появится в боковом меню.
-
----
-
 ## 🛠 Запуск
 
 ```bash
