@@ -18,6 +18,7 @@ from core.base_module import BaseModule
 from core.module_registry import ModuleRegistry
 from core.navigation_manager import NavigationManager
 from modules.currency_tracker.module import CurrencyTrackerModule
+from modules.budget_tracker.module import BudgetTrackerModule
 from ui.components.nav_sidebar import NavSidebar
 from ui.components.placeholder_screen import PlaceholderScreen
 from ui.themes.scifi_dark import GLOBAL_QSS
@@ -94,7 +95,8 @@ def main() -> None:
 
     registry = ModuleRegistry()
     registry.register(CurrencyTrackerModule())
-    registry.register(_make_placeholder_module(2, "Портфолио"))
+    registry.register(BudgetTrackerModule())
+
     registry.register(_make_placeholder_module(3, "Мониторинг"))
     registry.register(_make_placeholder_module(4, "Крипто"))
     registry.register(_make_placeholder_module(5, "Аналитика"))
