@@ -14,10 +14,8 @@ from PyQt6.QtWidgets import QLabel, QVBoxLayout, QWidget
 from ui.themes.scifi_dark import ACCENT, ACCENT2, BORDER, TEXT_MUTED
 
 _CODENAMES = [
-    "NEURAL_NET_ANALYZER",
-    "QUANTUM_PORTFOLIO",
-    "SYS_MONITOR_DAEMON",
-    "CRYPTO_ORACLE_v2",
+    "util№5",
+    "util№4"
 ]
 
 
