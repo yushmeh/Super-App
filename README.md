@@ -4,7 +4,7 @@
 [![PyQt6](https://img.shields.io/badge/PyQt6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%203--Tier-00D4FF?style=for-the-badge)](https://en.wikipedia.org/wiki/Multitier_architecture)
 [![Style](https://img.shields.io/badge/UI-Sci--Fi%20Dark%20Mode-cyan?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Tests](https://img.shields.io/badge/Tests-45%20passed-39FF14?style=for-the-badge)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Tests-37%20passed-39FF14?style=for-the-badge)](https://pytest.org)
 
 **SuperApp** — десктопная платформа-оболочка для независимых утилит, построенная на **PyQt6 (Python 3.11+)** с использованием паттерна **Plugin/Module** и архитектуры **Clean Architecture (3-Tier)**.
 
