@@ -247,7 +247,7 @@ NavigationManager              modules/*/module.py
 
 ## 🧪 Тестирование
 
-Покрытие бизнес-логики модуля `habit_tracker` — **45 тестов**, все проходят.
+Покрытие бизнес-логики модуля `habit_tracker` — **37 тестов**, все проходят.
 
 ```bash
 pytest -v
