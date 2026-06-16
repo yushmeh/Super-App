@@ -4,7 +4,7 @@
 [![PyQt6](https://img.shields.io/badge/PyQt6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%203--Tier-00D4FF?style=for-the-badge)](https://en.wikipedia.org/wiki/Multitier_architecture)
 [![Style](https://img.shields.io/badge/UI-Sci--Fi%20Dark%20Mode-cyan?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Tests](https://img.shields.io/badge/Tests-37%20passed-39FF14?style=for-the-badge)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Tests-45%20passed-39FF14?style=for-the-badge)](https://pytest.org)
 
 **SuperApp** — десктопная платформа-оболочка для независимых утилит, построенная на **PyQt6 (Python 3.11+)** с использованием паттерна **Plugin/Module** и архитектуры **Clean Architecture (3-Tier)**.
 
@@ -60,21 +60,27 @@ superapp/
 │   │
 │   ├── budget_tracker/            # ✅ Утилита 2: Бюджет и накопления
 │   │   ├── api/storage.py         # JSON-персистентность
-│   │   ├── logic/service.py       # Модели, бизнес-логика, расчёты
+│   │   ├── logic/service.py
 │   │   ├── ui/budget_view.py
 │   │   └── module.py
 │   │
-│   └── habit_tracker/             # ✅ Утилита 3: Трекер привычек
-│       ├── api/storage.py         # JSON-персистентность
-│       ├── logic/service.py       # Модели, серии, расчёты
-│       ├── ui/habit_view.py
+│   ├── habit_tracker/             # ✅ Утилита 3: Трекер привычек
+│   │   ├── api/storage.py         # JSON-персистентность
+│   │   ├── logic/service.py
+│   │   ├── ui/habit_view.py
+│   │   └── module.py
+│   │
+│   └── schedule_tracker/          # ✅ Утилита 4: Расписание занятий
+│       ├── api/storage.py         # SQLite-персистентность
+│       ├── logic/engine.py        # Lesson, ScheduleEngine, валидация
+│       ├── ui/schedule_view.py
 │       └── module.py
 │
 ├── ui/
 │   ├── themes/scifi_dark.py       # Цветовая палитра и глобальный QSS
 │   └── components/
-│       ├── nav_sidebar.py         # Боковое навигационное меню
-│       └── placeholder_screen.py  # Экран-заглушка для будущих модулей
+│       ├── nav_sidebar.py
+│       └── placeholder_screen.py
 │
 ├── tests/
 │   └── test_habit_tracker.py      # 45 юнит-тестов
@@ -151,7 +157,34 @@ superapp/
 
 ---
 
-### 🔜 Утилита 4 *(в разработке)*
+### ✅ Утилита 4 — Расписание занятий (`schedule_tracker`)
+Управление учебным расписанием с таймером и анализом нагрузки.
+
+**Вкладка «Неделя»**
+- Сетка из 7 колонок (дни недели) с карточками занятий.
+- Цвет карточки зависит от типа: лекция, практика, семинар, лабораторная, экзамен.
+- Клик на карточку открывает диалог редактирования.
+- Кнопка добавления нового занятия с выбором дня, времени, аудитории и преподавателя.
+
+**Вкладка «Таймер»**
+- Обратный отсчёт `ЧЧ:ММ:СС` до следующей пары в реальном времени (`QTimer`, обновление каждую секунду).
+- Цвет меняется: синий → зелёный (< 1 часа) → оранжевый (< 15 минут).
+- Отдельная строка с занятием, идущим прямо сейчас.
+
+**Вкладка «Нагрузка»**
+- Столбчатая диаграмма академических часов по дням недели.
+- Круговая donut-диаграмма распределения по типам занятий с легендой.
+- Итоговое количество академических часов в неделю.
+
+**Вкладка «Все занятия»**
+- Полный список с цветовой маркировкой, фильтрацией по типу.
+- Кнопки редактирования, удаления и переключения статуса (активно / отменено).
+
+**Валидация** запрещает: пустое название, неверный формат времени, конец ≤ начало, пересечение занятий в один день.
+
+**Данные** сохраняются в `schedule.db` (SQLite) рядом с модулем.
+
+---
 
 ### 🔜 Утилита 5 *(в разработке)*
 
@@ -167,7 +200,7 @@ superapp/
 ├─────────────────────────────────────┤
 │  Logic Layer  (modules/*/logic/)    │  валидация, парсинг, вычисления
 ├─────────────────────────────────────┤
-│  Data Layer  (modules/*/api/)       │  HTTP, файлы, кэш
+│  Data Layer  (modules/*/api/)       │  HTTP, файлы, SQLite
 └─────────────────────────────────────┘
 ```
 
@@ -188,7 +221,8 @@ NavigationManager              modules/*/module.py
   │  slot 0     │ CurrencyTrackerModule.create_widget()
   │  slot 1     │ BudgetTrackerModule.create_widget()
   │  slot 2     │ HabitTrackerModule.create_widget()
-  │  slot 3–4   │ PlaceholderModule.create_widget()
+  │  slot 3     │ ScheduleTrackerModule.create_widget()
+  │  slot 4     │ PlaceholderModule.create_widget()
   └─────────────┘
 ```
 
