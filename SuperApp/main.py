@@ -10,6 +10,7 @@ from core.navigation_manager import NavigationManager
 from modules.budget_tracker.module import BudgetTrackerModule
 from modules.currency_tracker.module import CurrencyTrackerModule
 from modules.habit_tracker.module import HabitTrackerModule
+from modules.media_tracker.module import MediaTrackerModule
 from modules.schedule_tracker.module import ScheduleTrackerModule
 from ui.components.nav_sidebar import NavSidebar
 from ui.components.placeholder_screen import PlaceholderScreen
@@ -79,7 +80,7 @@ def main() -> None:
     registry.register(BudgetTrackerModule())
     registry.register(HabitTrackerModule())
     registry.register(ScheduleTrackerModule())
-    registry.register(_make_placeholder_module(5, "Аналитика"))
+    registry.register(MediaTrackerModule())
 
     nav_manager = NavigationManager(registry)
     window = MainWindow(registry, nav_manager)
