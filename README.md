@@ -5,6 +5,7 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%203--Tier-00D4FF?style=for-the-badge)](https://en.wikipedia.org/wiki/Multitier_architecture)
 [![Style](https://img.shields.io/badge/UI-Sci--Fi%20Dark%20Mode-cyan?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![Tests](https://img.shields.io/badge/Tests-162%20passed-39FF14?style=for-the-badge)](https://pytest.org)
+[![Build](https://img.shields.io/badge/Build-PyInstaller-FFD700?style=for-the-badge)](https://pyinstaller.org)
 
 **SuperApp** — десктопная платформа-оболочка для независимых утилит, построенная на **PyQt6 (Python 3.11+)** с использованием паттерна **Plugin/Module** и архитектуры **Clean Architecture (3-Tier)**.
 
@@ -21,6 +22,7 @@
 - [🖥 Выбор UI-фреймворка](#-выбор-ui-фреймворка)
 - [🧪 Тестирование](#-тестирование)
 - [🛠 Запуск](#-запуск)
+- [📦 Сборка в .exe](#-сборка-в-exe)
 - [👤 Автор](#-автор)
 
 ---
@@ -40,6 +42,10 @@
 - Глобальная QSS-тема в стиле Sci-Fi Dark: тёмный фон (`#0A0E17`), неоновый синий (`#00D4FF`), оранжевый акцент (`#FF6B35`).
 - Все диаграммы (donut, столбчатые) нарисованы через `QPainter` без внешних зависимостей.
 
+### 📦 Готовность к дистрибуции
+- Кросс-платформенное определение пути к данным (`core/app_paths.py`) — работает одинаково в режиме разработки и в собранном `.exe`.
+- Готовый `.spec`-файл для PyInstaller с настроенными hidden imports.
+
 ---
 
 ## 📂 Структура проекта
@@ -47,57 +53,60 @@
 ```text
 superapp/
 ├── core/
-│   ├── base_module.py             # Абстрактный контракт для всех модулей
-│   ├── module_registry.py         # Реестр зарегистрированных модулей
-│   └── navigation_manager.py      # Управление QStackedWidget
+│   ├── app_paths.py                # Путь к данным: dev-режим vs собранный .exe
+│   ├── base_module.py              # Абстрактный контракт для всех модулей
+│   ├── module_registry.py          # Реестр зарегистрированных модулей
+│   └── navigation_manager.py       # Управление QStackedWidget
 │
 ├── modules/
-│   ├── currency_tracker/          # ✅ Утилита 1: Трекер валют
-│   │   ├── api/cbr_client.py      # Async HTTP-клиент ЦБ РФ
+│   ├── currency_tracker/           # ✅ Утилита 1: Трекер валют
+│   │   ├── api/cbr_client.py       # Async HTTP-клиент ЦБ РФ
 │   │   ├── logic/data_processor.py
 │   │   ├── ui/currency_view.py
 │   │   └── module.py
 │   │
-│   ├── budget_tracker/            # ✅ Утилита 2: Бюджет и накопления
-│   │   ├── api/storage.py         # JSON-персистентность
+│   ├── budget_tracker/             # ✅ Утилита 2: Бюджет и накопления
+│   │   ├── api/storage.py          # JSON-персистентность
 │   │   ├── logic/service.py
 │   │   ├── ui/budget_view.py
 │   │   └── module.py
 │   │
-│   ├── habit_tracker/             # ✅ Утилита 3: Трекер привычек
-│   │   ├── api/storage.py         # JSON-персистентность
+│   ├── habit_tracker/              # ✅ Утилита 3: Трекер привычек
+│   │   ├── api/storage.py          # JSON-персистентность
 │   │   ├── logic/service.py
 │   │   ├── ui/habit_view.py
 │   │   └── module.py
 │   │
-│   ├── schedule_tracker/          # ✅ Утилита 4: Расписание занятий
-│   │   ├── api/storage.py         # SQLite-персистентность
-│   │   ├── logic/engine.py        # Lesson, ScheduleEngine, валидация
+│   ├── schedule_tracker/           # ✅ Утилита 4: Расписание занятий
+│   │   ├── api/storage.py          # SQLite-персистентность
+│   │   ├── logic/engine.py         # Lesson, ScheduleEngine, валидация
 │   │   ├── ui/schedule_view.py
 │   │   └── module.py
 │   │
-│   └── media_tracker/             # ✅ Утилита 5: МедиаТрекер
-│       ├── api/storage.py         # SQLite-персистентность
-│       ├── logic/service.py       # MediaItem, MediaService, статистика
+│   └── media_tracker/              # ✅ Утилита 5: МедиаТрекер
+│       ├── api/storage.py          # SQLite-персистентность
+│       ├── logic/service.py        # MediaItem, MediaService, статистика
 │       ├── ui/media_view.py
 │       └── module.py
 │
 ├── ui/
-│   ├── themes/scifi_dark.py       # Цветовая палитра и глобальный QSS
+│   ├── themes/scifi_dark.py        # Цветовая палитра и глобальный QSS
 │   └── components/
 │       ├── nav_sidebar.py
 │       └── placeholder_screen.py
 │
 ├── tests/
-│   ├── test_habit_tracker.py      # 37 тестов — серии, completion rate, экспорт/импорт
-│   ├── test_budget_tracker.py     # 41 тест — транзакции, категории, цели, баланс
-│   ├── test_currency_tracker.py   # 13 тестов — парсинг XML ЦБ РФ
-│   ├── test_schedule_tracker.py   # 36 тестов — CRUD, валидация пересечений, таймер
-│   └── test_media_tracker.py      # 35 тестов — CRUD, статистика, топ по оценке
+│   ├── test_habit_tracker.py       # 37 тестов — серии, completion rate, экспорт/импорт
+│   ├── test_budget_tracker.py      # 41 тест — транзакции, категории, цели, баланс
+│   ├── test_currency_tracker.py    # 13 тестов — парсинг XML ЦБ РФ
+│   ├── test_schedule_tracker.py    # 36 тестов — CRUD, валидация пересечений, таймер
+│   └── test_media_tracker.py       # 35 тестов — CRUD, статистика, топ по оценке
 │
 ├── main.py
 ├── requirements.txt
 ├── pytest.ini
+├── superapp.spec                   # Конфигурация сборки PyInstaller → .exe
+├── .gitignore
 └── README.md
 ```
 
@@ -257,6 +266,19 @@ NavigationManager              modules/*/module.py
 
 Все пять слотов заняты реальными модулями — заглушки больше не используются.
 
+### Persistence-слой и сборка
+
+Каждый модуль с хранением данных (`budget_tracker`, `habit_tracker`, `schedule_tracker`, `media_tracker`) определяет путь к своему файлу через `core/app_paths.py`:
+
+```
+resolve_data_file(dev_path, module_name, filename)
+       │
+       ├── режим разработки  → dev_path / filename            (рядом с storage.py)
+       └── собранный .exe    → %LOCALAPPDATA%/SuperApp/<module>/filename
+```
+
+Это устраняет проблему PyInstaller, при которой `__file__` в собранном `.exe` указывает на временную папку `_MEIPASS`, пересоздаваемую при каждом запуске — без этого слоя все данные обнулялись бы после перезапуска приложения.
+
 ---
 
 ## 🖥 Выбор UI-фреймворка
@@ -307,6 +329,24 @@ python main.py
 ```
 
 **Требования**: Python 3.11+
+
+---
+
+## 📦 Сборка в .exe
+
+Приложение собирается в один исполняемый файл через [PyInstaller](https://pyinstaller.org).
+
+```bash
+pip install pyinstaller
+pyinstaller superapp.spec
+```
+
+Готовый файл появится в `dist/SuperApp.exe`. Конфигурация (`superapp.spec`) уже включает:
+- нужные `hiddenimports` для PyQt6, pyqtgraph и lxml;
+- исключение `tests/` и `pytest` из финальной сборки;
+- запуск без консольного окна (`console=False`).
+
+После первого запуска `.exe` все пользовательские данные сохраняются в `%LOCALAPPDATA%\SuperApp\` (Windows) и переживают перезапуск приложения — подробнее см. раздел [Persistence-слой и сборка](#persistence-слой-и-сборка).
 
 ---
 
