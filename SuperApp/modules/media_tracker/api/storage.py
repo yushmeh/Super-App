@@ -2,7 +2,9 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-_DB_FILE = Path(__file__).parent / "media.db"
+from core.app_paths import resolve_data_file
+
+_DB_FILE = resolve_data_file(Path(__file__).parent, "media_tracker", "media.db")
 
 _CREATE_TABLE = """
 CREATE TABLE IF NOT EXISTS media_items (

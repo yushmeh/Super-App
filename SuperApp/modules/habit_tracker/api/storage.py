@@ -2,12 +2,13 @@ import json
 from pathlib import Path
 from typing import Any
 
-_DATA_FILE = Path(__file__).parent / "habits_data.json"
+from core.app_paths import resolve_data_file
 
-_DEFAULT: dict[str, Any] = {"habits": []}
+_DATA_FILE = resolve_data_file(Path(__file__).parent, "habit_tracker", "habits_data.json")
 
 
 def load() -> dict[str, Any]:
+    """Загружает данные из JSON. При отсутствии файла возвращает пустую структуру."""
     if not _DATA_FILE.exists():
         return {"habits": []}
     try:
@@ -25,16 +26,12 @@ def save(data: dict[str, Any]) -> None:
 
 
 def export_to_file(data: dict[str, Any], path: str) -> None:
-    """Экспортирует данные в указанный JSON-файл."""
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def import_from_file(path: str) -> dict[str, Any]:
-    """
-    Импортирует данные из JSON-файла.
-    Выбрасывает ValueError если формат неверный.
-    """
+    """ValueError если формат файла неверный."""
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
     if "habits" not in data or not isinstance(data["habits"], list):
