@@ -4,7 +4,7 @@
 [![PyQt6](https://img.shields.io/badge/PyQt6-6.7+-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%203--Tier-00D4FF?style=for-the-badge)](https://en.wikipedia.org/wiki/Multitier_architecture)
 [![Style](https://img.shields.io/badge/UI-Sci--Fi%20Dark%20Mode-cyan?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Tests](https://img.shields.io/badge/Tests-37%20passed-39FF14?style=for-the-badge)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Tests-162%20passed-39FF14?style=for-the-badge)](https://pytest.org)
 
 **SuperApp** — десктопная платформа-оболочка для независимых утилит, построенная на **PyQt6 (Python 3.11+)** с использованием паттерна **Plugin/Module** и архитектуры **Clean Architecture (3-Tier)**.
 
@@ -89,7 +89,11 @@ superapp/
 │       └── placeholder_screen.py
 │
 ├── tests/
-│   └── test_habit_tracker.py      # 37 юнит-тестов
+│   ├── test_habit_tracker.py      # 37 тестов — серии, completion rate, экспорт/импорт
+│   ├── test_budget_tracker.py     # 41 тест — транзакции, категории, цели, баланс
+│   ├── test_currency_tracker.py   # 13 тестов — парсинг XML ЦБ РФ
+│   ├── test_schedule_tracker.py   # 36 тестов — CRUD, валидация пересечений, таймер
+│   └── test_media_tracker.py      # 35 тестов — CRUD, статистика, топ по оценке
 │
 ├── main.py
 ├── requirements.txt
@@ -274,17 +278,21 @@ NavigationManager              modules/*/module.py
 
 ## 🧪 Тестирование
 
-Покрытие бизнес-логики модуля `habit_tracker` — **37 тестов**, все проходят.
+Покрытие бизнес-логики всех пяти модулей — **162 теста**, все проходят.
 
 ```bash
 pytest -v
 ```
 
-| Класс | Что тестируется |
-|---|---|
-| `TestHabitModel` | Модель Habit: статусы, серии, completion rate, тепловая карта |
-| `TestHabitService` | CRUD привычек, отметки, toggle, валидация |
-| `TestExportImport` | Экспорт в JSON, импорт с заменой и слиянием, невалидный формат |
+| Файл | Тестов | Что покрывается |
+|---|---|---|
+| `test_habit_tracker.py` | 37 | Модель Habit (статусы, серии, completion rate, тепловая карта), CRUD привычек, отметки/toggle, экспорт/импорт JSON |
+| `test_budget_tracker.py` | 41 | Модели Transaction/Category/Goal, CRUD категорий и транзакций, расчёт баланса, расходы по категориям за месяц, пополнение целей |
+| `test_currency_tracker.py` | 13 | Парсинг XML-ответов ЦБ РФ (дневные курсы и история), нормализация по nominal, обработка некорректных данных |
+| `test_schedule_tracker.py` | 36 | Модель Lesson, CRUD занятий, валидация пересечений по времени, расчёт учебной нагрузки, поиск текущей/следующей пары |
+| `test_media_tracker.py` | 35 | Модель MediaItem, CRUD записей, статусы завершения, статистика (счётчики, средняя оценка, топ-5) |
+
+Каждый набор тестов изолирован от реального хранилища: JSON-модули замоканы через `unittest.mock`, SQLite-модули используют временную БД (`tmp_path` / `monkeypatch`) — рабочие файлы (`*.json`, `*.db`) не затрагиваются при прогоне.
 
 ---
 
