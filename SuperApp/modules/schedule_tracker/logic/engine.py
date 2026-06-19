@@ -115,8 +115,6 @@ class ScheduleEngine:
     def _reload(self) -> None:
         self._cache = [Lesson.from_dict(r) for r in fetch_all()]
 
-    # ── CRUD ─────────────────────────────────────────────────────────────────
-
     def get_all(self) -> list[Lesson]:
         return list(self._cache)
 
@@ -138,12 +136,7 @@ class ScheduleEngine:
         lesson_type: str = "lecture",
     ) -> Lesson:
         """
-        Создаёт занятие. ValueError при некорректных данных:
-        - пустое название
-        - day_of_week вне 0–6
-        - неверный формат времени
-        - время конца не позже времени начала
-        - пересечение с существующим занятием того же дня
+        Создаёт занятие.
         """
         self._validate(title, day_of_week, time_start, time_end, exclude_id=None)
         lesson = Lesson.new(title, day_of_week, time_start, time_end, teacher, room, lesson_type)
@@ -189,8 +182,6 @@ class ScheduleEngine:
         self._reload()
         return lesson
 
-    # ── Расчёты нагрузки ─────────────────────────────────────────────────────
-
     def hours_per_day(self) -> dict[str, float]:
         """Академические часы (45 мин = 1 ч) по дням недели."""
         result = {name: 0.0 for name in DAY_NAMES}
@@ -216,8 +207,6 @@ class ScheduleEngine:
     def next_lesson(self) -> Optional[tuple[Lesson, timedelta]]:
         """
         Возвращает ближайшее предстоящее занятие и timedelta до его начала.
-        Смотрит в пределах текущей + следующей недели.
-        Возвращает None если занятий нет.
         """
         now = datetime.now()
         today_dow = now.weekday()  # 0=Пн
@@ -256,8 +245,6 @@ class ScheduleEngine:
             if l.is_active and l.time_start <= current_time <= l.time_end:
                 return l
         return None
-
-    # ── Вспомогательные методы ────────────────────────────────────────────────
 
     def _find(self, lesson_id: str) -> Lesson:
         for l in self._cache:

@@ -1,10 +1,3 @@
-"""
-modules/currency_tracker/logic/data_processor.py
-=================================================
-Бизнес-логика трекера валют: парсинг XML, валидация, подготовка данных для графика.
-Получает CbrRawData от API-слоя, возвращает типизированные структуры.
-Не импортирует ничего из UI-слоя.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -42,17 +35,6 @@ class ProcessingError(Exception):
 def parse_daily_rates(raw: CbrRawData) -> dict[str, CurrencyRate]:
     """
     Парсит XML с дневными курсами всех валют.
-    Возвращает словарь {ISO_код: CurrencyRate}.
-
-    Формат XML-ответа ЦБ:
-        <ValCurs Date="10.06.2024">
-          <Valute ID="R01235">
-            <CharCode>USD</CharCode>
-            <Nominal>1</Nominal>
-            <Name>Доллар США</Name>
-            <Value>87,1234</Value>     ← запятая как десятичный разделитель
-          </Valute>
-        </ValCurs>
     """
     try:
         root = etree.fromstring(raw.xml_content)
@@ -88,14 +70,6 @@ def parse_daily_rates(raw: CbrRawData) -> dict[str, CurrencyRate]:
 def parse_currency_history(raw: CbrRawData, currency_id: str) -> HistoryData:
     """
     Парсит XML с динамикой курса одной валюты.
-
-    Формат XML-ответа ЦБ:
-        <ValCurs name="Доллар США">
-          <Record Date="01.01.2024">
-            <Nominal>1</Nominal>
-            <Value>88,1500</Value>
-          </Record>
-        </ValCurs>
     """
     try:
         root = etree.fromstring(raw.xml_content)

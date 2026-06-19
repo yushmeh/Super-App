@@ -1,15 +1,3 @@
-"""
-modules/currency_tracker/api/cbr_client.py
-==========================================
-Слой данных: async HTTP-клиент для XML API Центрального Банка РФ.
-
-Эндпоинты ЦБ:
-  Курс на дату:   https://www.cbr.ru/scripts/XML_daily.asp?date_req=DD/MM/YYYY
-  История курса:  https://www.cbr.ru/scripts/XML_dynamic.asp?...&VAL_NM_RQ=R-код
-
-Отвечает только за получение сырых данных.
-Парсинг и валидация — в слое logic (data_processor.py).
-"""
 from __future__ import annotations
 
 from datetime import date
@@ -47,7 +35,6 @@ class CbrApiError(Exception):
 async def fetch_daily_rates(query_date: date | None = None) -> CbrRawData:
     """
     Курсы всех валют на указанную дату.
-    Если query_date не передан — возвращает актуальный курс.
     """
     params: dict[str, str] = {}
     if query_date is not None:
@@ -62,7 +49,6 @@ async def fetch_currency_history(
 ) -> CbrRawData:
     """
     История курса одной валюты за диапазон дат.
-    Выбрасывает ValueError если currency_id не найден в CURRENCY_CODES.
     """
     if currency_id not in CURRENCY_CODES:
         raise ValueError(

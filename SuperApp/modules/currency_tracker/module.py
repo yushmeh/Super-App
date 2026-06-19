@@ -1,9 +1,3 @@
-"""
-modules/currency_tracker/module.py
-===================================
-Точка входа модуля «Трекер валют».
-Реализует контракт BaseModule и регистрируется в ModuleRegistry при старте.
-"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

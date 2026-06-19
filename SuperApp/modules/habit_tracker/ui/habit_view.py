@@ -31,9 +31,6 @@ _EMOJI_OPTIONS = [
     "🎵", "🧹", "💊", "🚴", "🌿", "🧠", "🎨", "📝", "🏋️", "😴",
 ]
 
-
-# ── Вспомогательные виджеты ──────────────────────────────────────────────────
-
 class _Divider(QFrame):
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -44,7 +41,6 @@ class _Divider(QFrame):
 class _HeatmapWidget(QWidget):
     """
     Тепловая карта в стиле GitHub: 18 недель × 7 дней.
-    Зелёный → выполнено, оранжевый → пропущено, тёмный → нет отметки.
     """
 
     def __init__(self, parent: QWidget | None = None) -> None:
@@ -176,9 +172,6 @@ class _MiniStreakBar(QWidget):
 
         painter.end()
 
-
-# ── Диалоги ──────────────────────────────────────────────────────────────────
-
 class _AddHabitDialog(QDialog):
     def __init__(self, parent: QWidget | None = None,
                  name: str = "", emoji: str = "⭐") -> None:
@@ -224,13 +217,9 @@ class _AddHabitDialog(QDialog):
     def get_data(self) -> tuple[str, str]:
         return self.name_edit.text().strip(), self.emoji_combo.currentData()
 
-
-# ── Карточка привычки ─────────────────────────────────────────────────────────
-
 class _HabitCard(QWidget):
     """
     Карточка одной привычки в списке «Сегодня».
-    Содержит: иконка + название, серии, мини-полоска, кнопки ✓/✗/✏/🗑
     """
 
     def __init__(
@@ -330,9 +319,6 @@ class _HabitCard(QWidget):
         bottom.addWidget(del_btn)
 
         layout.addLayout(bottom)
-
-
-# ── Вкладки ──────────────────────────────────────────────────────────────────
 
 class _TodayTab(QWidget):
     """Вкладка «Сегодня»: список всех привычек с карточками."""
@@ -643,9 +629,6 @@ class _StatsTab(QWidget):
         if is_header:
             w.setStyleSheet(f"background: {BG_ELEVATED}; border-radius: 4px;")
         return w
-
-
-# ── Главный виджет ────────────────────────────────────────────────────────────
 
 class HabitView(QWidget):
     """Главный виджет трекера привычек с тремя вкладками."""

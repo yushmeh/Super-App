@@ -1,17 +1,3 @@
-"""
-modules/currency_tracker/ui/currency_view.py
-============================================
-UI-слой трекера валют.
-
-Асинхронность реализована через QThread (FetchWorker):
-сетевые запросы выполняются в отдельном потоке,
-результаты передаются в UI через сигналы Qt — UI никогда не блокируется.
-
-Компоненты:
-  FetchWorker   — QThread, запускающий async-функции httpx
-  ChartWidget   — обёртка над pyqtgraph с Sci-Fi стилизацией
-  CurrencyView  — главный виджет модуля
-"""
 from __future__ import annotations
 
 import asyncio
@@ -54,11 +40,6 @@ from ui.themes.scifi_dark import (
 class FetchWorker(QThread):
     """
     QThread для выполнения async-запросов к API ЦБ.
-
-    Сигналы:
-        daily_ready(object)    — dict[str, CurrencyRate]
-        history_ready(object)  — HistoryData
-        error_occurred(str)    — текст ошибки
     """
 
     daily_ready:    pyqtSignal = pyqtSignal(object)

@@ -1,12 +1,3 @@
-"""
-modules/budget_tracker/ui/budget_view.py
-=========================================
-UI-слой бюджетного трекера. Четыре вкладки:
-  1. Обзор    — баланс, доходы/расходы, последние транзакции
-  2. Добавить — форма добавления транзакции
-  3. Диаграмма — круговая диаграмма расходов по категориям за месяц
-  4. Цели     — цели накопления с прогресс-барами
-"""
 from __future__ import annotations
 
 
@@ -32,9 +23,6 @@ _PIE_COLORS = [
 ]
 
 _ICON_OPTIONS = ["🎯", "🏠", "🚗", "✈️", "💻", "📱", "💍", "🎓", "💪", "🌴"]
-
-
-# ── Вспомогательные виджеты ──────────────────────────────────────────────────
 
 class _Divider(QFrame):
     def __init__(self, parent: QWidget | None = None) -> None:
@@ -106,7 +94,6 @@ class _ProgressBar(QWidget):
 class _PieChartWidget(QWidget):
     """
     Круговая диаграмма расходов по категориям.
-    Нарисована через QPainter — не зависит от внешних библиотек.
     """
 
     def __init__(self, parent: QWidget | None = None) -> None:
@@ -170,8 +157,6 @@ class _PieChartWidget(QWidget):
 
         painter.end()
 
-
-# ── Диалоги ──────────────────────────────────────────────────────────────────
 
 class _AddCategoryDialog(QDialog):
     """Диалог добавления пользовательской категории."""
@@ -254,9 +239,6 @@ class _AddGoalDialog(QDialog):
             self.amount_spin.value(),
             self.icon_combo.currentData(),
         )
-
-
-# ── Вкладки ──────────────────────────────────────────────────────────────────
 
 class _OverviewTab(QWidget):
     """Вкладка «Обзор»: баланс, сводка, последние 10 транзакций."""
@@ -733,8 +715,6 @@ class _GoalsTab(QWidget):
         self._service.delete_goal(goal_id)
         self.refresh()
 
-
-# ── Главный виджет ────────────────────────────────────────────────────────────
 
 class BudgetView(QWidget):
     """

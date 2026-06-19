@@ -1,15 +1,3 @@
-"""
-modules/budget_tracker/logic/service.py
-========================================
-Бизнес-логика бюджетного трекера.
-
-Модели данных (dataclass):
-  Transaction  — доход или расход с категорией, суммой, датой, заметкой
-  Category     — категория расходов/доходов (встроенная или пользовательская)
-  Goal         — цель накопления с целевой суммой и прогрессом
-
-BudgetService — единственная точка доступа для UI-слоя.
-"""
 import uuid
 from dataclasses import dataclass, asdict
 from datetime import date

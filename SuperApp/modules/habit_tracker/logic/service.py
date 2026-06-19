@@ -124,8 +124,6 @@ class HabitService:
     def __init__(self) -> None:
         self._data = load()
 
-    # ── Привычки ─────────────────────────────────────────────────────────────
-
     def get_habits(self) -> list[Habit]:
         return [Habit(**h) for h in self._data["habits"]]
 
@@ -158,12 +156,9 @@ class HabitService:
             raise ValueError("Привычка не найдена")
         save(self._data)
 
-    # ── Отметки ──────────────────────────────────────────────────────────────
-
     def mark(self, habit_id: str, status: str, day: Optional[date] = None) -> Habit:
         """
         Отмечает привычку на указанный день.
-        Запрещает повторную отметку: если статус уже выставлен — снимает его (toggle).
         """
         if status not in (DONE, SKIPPED):
             raise ValueError(f"Недопустимый статус: {status!r}")
@@ -180,8 +175,6 @@ class HabitService:
                 return Habit(**h)
         raise ValueError("Привычка не найдена")
 
-    # ── Экспорт / Импорт ─────────────────────────────────────────────────────
-
     def export(self, path: str) -> None:
         """Экспортирует все данные в JSON-файл."""
         export_to_file(self._data, path)
@@ -189,9 +182,6 @@ class HabitService:
     def import_data(self, path: str, merge: bool = False) -> int:
         """
         Импортирует данные из JSON-файла.
-        merge=True  — добавляет привычки к существующим (по уникальному id)
-        merge=False — полностью заменяет текущие данные
-        Возвращает количество импортированных привычек.
         """
         imported = import_from_file(path)
         if merge:

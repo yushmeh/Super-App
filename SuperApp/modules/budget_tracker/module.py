@@ -1,9 +1,3 @@
-"""
-modules/budget_tracker/module.py
-=================================
-Точка входа модуля «Бюджет и накопления».
-Реализует контракт BaseModule.
-"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
