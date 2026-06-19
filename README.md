@@ -105,9 +105,7 @@ superapp/
 ├── main.py
 ├── requirements.txt
 ├── pytest.ini
-├── superapp.spec                   # Конфигурация сборки PyInstaller → .exe
-├── .gitignore
-└── README.md
+└── superapp.spec                   # Конфигурация сборки PyInstaller → .exe
 ```
 
 ---
