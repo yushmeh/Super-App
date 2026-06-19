@@ -1,10 +1,3 @@
-"""
-core/navigation_manager.py
-==========================
-Менеджер навигации SuperApp. Паттерн «Посредник» (Mediator).
-Связывает ModuleRegistry с QStackedWidget.
-Переключение между модулями мгновенное — виджеты не пересоздаются.
-"""
 from __future__ import annotations
 
 from PyQt6.QtWidgets import QStackedWidget, QWidget
@@ -16,7 +9,6 @@ from core.module_registry import ModuleRegistry
 class NavigationManager:
     """
     Управляет QStackedWidget: создаёт виджеты модулей и переключает их.
-    Вызывает хуки on_activated / on_deactivated при каждом переходе.
     """
 
     def __init__(self, registry: ModuleRegistry) -> None:
@@ -41,7 +33,6 @@ class NavigationManager:
     def navigate_to(self, module_id: str) -> bool:
         """
         Переключается на модуль с указанным ID.
-        Возвращает True при успехе, False если модуль не найден.
         """
         if module_id not in self._index_map:
             return False

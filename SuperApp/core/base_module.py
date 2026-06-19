@@ -10,11 +10,6 @@ if TYPE_CHECKING:
 class BaseModule(ABC):
     """
     Контракт для всех утилит SuperApp.
-
-    Жизненный цикл:
-        1. ModuleRegistry.register(instance) — регистрация при старте
-        2. NavigationManager вызывает create_widget() при первом переходе
-        3. QWidget кэшируется в QStackedWidget и переиспользуется
     """
 
     @property

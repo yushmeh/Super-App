@@ -1,9 +1,3 @@
-"""
-core/module_registry.py
-=======================
-Центральный реестр модулей SuperApp.
-Хранит зарегистрированные модули и предоставляет доступ по ID.
-"""
 from __future__ import annotations
 
 from typing import Iterator
@@ -14,11 +8,6 @@ from core.base_module import BaseModule
 class ModuleRegistry:
     """
     Реестр плагинов/модулей.
-
-    Использование:
-        registry = ModuleRegistry()
-        registry.register(CurrencyTrackerModule())
-        modules = registry.all_modules()
     """
 
     def __init__(self) -> None:
