@@ -1,8 +1,8 @@
-import sys
 import os
-import pytest
+import sys
 from datetime import datetime, timedelta
-from unittest.mock import patch
+
+import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 

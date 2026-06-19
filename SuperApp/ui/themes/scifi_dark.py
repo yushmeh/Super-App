@@ -1,16 +1,3 @@
-"""
-ui/themes/scifi_dark.py
-=======================
-Sci-Fi Dark тема SuperApp: цветовая палитра и глобальный QSS-стиль.
-
-Цветовая концепция:
-  BG_DEEP    #0A0E17  — «космос», самый глубокий фон
-  BG_SURFACE #111827  — карточки и панели
-  ACCENT     #00D4FF  — неоновый синий, основной акцент
-  ACCENT2    #FF6B35  — оранжевый, предупреждения
-  SUCCESS    #39FF14  — неоновый зелёный
-  TEXT       #E2E8F0  — основной текст
-"""
 from __future__ import annotations
 
 BG_DEEP       = "#0A0E17"

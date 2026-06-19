@@ -14,17 +14,13 @@ from PyQt6.QtWidgets import QLabel, QVBoxLayout, QWidget
 from ui.themes.scifi_dark import ACCENT, ACCENT2, BORDER, TEXT_MUTED
 
 _CODENAMES = [
-    "util№5",
-    "util№4"
+    "util"
 ]
 
 
 class PlaceholderScreen(QWidget):
     """
     Виджет-заглушка с уникальным кодовым именем для каждого слота.
-
-    Параметры:
-        slot_index: порядковый номер слота (0-based)
     """
 
     def __init__(self, slot_index: int, parent: QWidget | None = None) -> None:

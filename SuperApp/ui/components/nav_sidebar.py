@@ -1,10 +1,3 @@
-"""
-ui/components/nav_sidebar.py
-============================
-Боковая навигационная панель SuperApp.
-Динамически строится из списка зарегистрированных модулей.
-Испускает сигнал module_selected(module_id) при клике на кнопку.
-"""
 from __future__ import annotations
 
 from PyQt6.QtCore import Qt, pyqtSignal
@@ -23,9 +16,6 @@ from core.base_module import BaseModule
 class NavSidebar(QWidget):
     """
     Боковое меню навигации.
-
-    Сигналы:
-        module_selected(str) — передаёт module_id выбранного модуля
     """
 
     module_selected = pyqtSignal(str)
